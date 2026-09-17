@@ -1,0 +1,305 @@
+{
+ "skill": "prospect",
+ "notes": "Frozen regression set for /prospect. Headless cases: records are given, tools are unavailable. Covers the traps found in the 17 Sep 2026 live Exa test (stale signal, CTO not CEO, email at a previous employer) plus suppression, ICP rejection, no-email and selective send.",
+ "cases": [
+  {
+   "id": "stacked-funding-plus-hire",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Tidewater Labs (tidewaterlabs.com.au), Perth, B2B software, 24 staff, founder-led. Signals: $4M seed announced 2026-09-01 (StartupDaily); Head of Growth role posted on Seek 2026-09-08. Decision maker: Priya Raman, Co-founder and CEO. Email lookup: priya@tidewaterlabs.com.au. Not in suppression, no Gmail history. Score it, then write the draft email exactly as it would go into Gmail (Subject line, body, sign-off).",
+   "expects": [
+    {
+     "id": "no-emdash",
+     "kind": "forbid_regex",
+     "pattern": "—"
+    },
+    {
+     "id": "no-endash",
+     "kind": "forbid_regex",
+     "pattern": "–"
+    },
+    {
+     "id": "no-blocklist",
+     "kind": "forbid_regex",
+     "pattern": "(?i)\\b(delve|hone|garner|leverage|unlock|unleash|paradigm|robust|synergy|seamless|transformative|best practices)\\b"
+    },
+    {
+     "id": "has-subject",
+     "kind": "require_regex",
+     "pattern": "(?im)^\\s*subject:"
+    },
+    {
+     "id": "no-fake-re",
+     "kind": "forbid_regex",
+     "pattern": "(?im)^\\s*subject:\\s*(re|fwd|fw)\\s*:"
+    },
+    {
+     "id": "no-link",
+     "kind": "forbid_regex",
+     "pattern": "https?://"
+    },
+    {
+     "id": "signoff",
+     "kind": "require_regex",
+     "pattern": "ABN 50 671 799 081"
+    },
+    {
+     "id": "opt-out",
+     "kind": "require_regex",
+     "pattern": "(?i)reply \"?stop\"?"
+    },
+    {
+     "id": "score-drafts",
+     "kind": "judge",
+     "assertion": "The score is at least 5 and the decision is to draft."
+    },
+    {
+     "id": "stack-argued",
+     "kind": "judge",
+     "assertion": "The opening uses the funding and the Head of Growth role together as one argument about what the money is for, rather than listing two facts."
+    },
+    {
+     "id": "offer-line",
+     "kind": "judge",
+     "assertion": "Exactly one sentence describes Corient as an embedded CMO with a pod of specialists or a marketing team for the cost of one hire, it is near the end, and it does not read as a pitch or list services."
+    },
+    {
+     "id": "one-question",
+     "kind": "judge",
+     "assertion": "The body ends with exactly one curious question about their plan and does not ask for a call or meeting."
+    },
+    {
+     "id": "body-length",
+     "kind": "judge",
+     "assertion": "The body, excluding the sign-off, is 80 words or fewer."
+    },
+    {
+     "id": "no-internal-claims",
+     "kind": "judge",
+     "assertion": "Nothing asserts a fact about the prospect's internal spend, stack, team skills or results."
+    }
+   ]
+  },
+  {
+   "id": "hire-only",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Loam & Co (loamandco.com), Melbourne, premium skincare, 30 staff, founder-led, about $6M revenue. Signal: Performance Marketing Manager role posted 2026-09-10 on LinkedIn Jobs. Decision maker: Jess Tran, Founder. Email lookup: jess@loamandco.com. No suppression hit, no Gmail history. Score it and write the draft email if it qualifies.",
+   "expects": [
+    {
+     "id": "no-emdash",
+     "kind": "forbid_regex",
+     "pattern": "—"
+    },
+    {
+     "id": "no-endash",
+     "kind": "forbid_regex",
+     "pattern": "–"
+    },
+    {
+     "id": "no-blocklist",
+     "kind": "forbid_regex",
+     "pattern": "(?i)\\b(delve|hone|garner|leverage|unlock|unleash|paradigm|robust|synergy|seamless|transformative|best practices)\\b"
+    },
+    {
+     "id": "has-subject",
+     "kind": "require_regex",
+     "pattern": "(?im)^\\s*subject:"
+    },
+    {
+     "id": "no-link",
+     "kind": "forbid_regex",
+     "pattern": "https?://"
+    },
+    {
+     "id": "drafts",
+     "kind": "judge",
+     "assertion": "Scores 5 (marketing hire 4, founder +1) and writes a draft email."
+    },
+    {
+     "id": "hire-comparison",
+     "kind": "judge",
+     "assertion": "The offer sentence ties the marketing team for the cost of one hire to the role they are hiring for."
+    }
+   ]
+  },
+  {
+   "id": "stale-signal",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Brightline Analytics (brightline.io), Sydney, B2B software, 40 staff. Signal: Series A announced 2026-06-20. Decision maker: Tom Hale, CEO. Email: tom@brightline.io. Decide whether to draft.",
+   "expects": [
+    {
+     "id": "no-emdash",
+     "kind": "forbid_regex",
+     "pattern": "—"
+    },
+    {
+     "id": "no-endash",
+     "kind": "forbid_regex",
+     "pattern": "–"
+    },
+    {
+     "id": "no-subject",
+     "kind": "forbid_regex",
+     "pattern": "(?im)^\\s*subject:"
+    },
+    {
+     "id": "drops-stale",
+     "kind": "judge",
+     "assertion": "Drops the prospect because the funding signal is outside its 7 to 45 day window, and writes no email."
+    }
+   ]
+  },
+  {
+   "id": "no-verified-email",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Kiwi Kit (kiwikit.co.nz), Auckland, B2C e-learning, 15 staff. Signals: NZ$2M seed announced 2026-09-02; Marketing Lead role posted 2026-09-05. Decision maker: Barney Cole, Co-founder and CEO, linkedin.com/in/barneycole. Email lookup returned nothing. Decide what happens.",
+   "expects": [
+    {
+     "id": "no-emdash",
+     "kind": "forbid_regex",
+     "pattern": "—"
+    },
+    {
+     "id": "no-endash",
+     "kind": "forbid_regex",
+     "pattern": "–"
+    },
+    {
+     "id": "no-subject",
+     "kind": "forbid_regex",
+     "pattern": "(?im)^\\s*subject:"
+    },
+    {
+     "id": "no-guessed-email",
+     "kind": "forbid_regex",
+     "pattern": "(?i)barney(\\.cole)?@kiwikit"
+    },
+    {
+     "id": "linkedin-only",
+     "kind": "judge",
+     "assertion": "Writes no email, does not guess an address, and lists Barney Cole as LinkedIn only with the LinkedIn URL and the reason."
+    }
+   ]
+  },
+  {
+   "id": "wrong-domain-email",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Evento (evento.com.au), Brisbane, B2B events software, 12 staff. Signal: $1.5M pre-seed announced 2026-09-05. Decision maker: Hailey Moss, Co-founder and CEO. Email lookup returned hailey.moss@the-shift.agency with confidence High. Decide what happens.",
+   "expects": [
+    {
+     "id": "no-emdash",
+     "kind": "forbid_regex",
+     "pattern": "—"
+    },
+    {
+     "id": "no-endash",
+     "kind": "forbid_regex",
+     "pattern": "–"
+    },
+    {
+     "id": "no-subject",
+     "kind": "forbid_regex",
+     "pattern": "(?im)^\\s*subject:"
+    },
+    {
+     "id": "rejects-domain",
+     "kind": "judge",
+     "assertion": "Rejects the email because its domain does not match evento.com.au despite the High confidence, writes no draft, and lists her as LinkedIn only."
+    }
+   ]
+  },
+  {
+   "id": "prior-thread",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Harbour Supply (harboursupply.com.au), Perth, premium homewares, 50 staff. Signal: new Head of Marketing appointed 2026-08-25. Decision maker: Mia Lowe, Founder. Email: mia@harboursupply.com.au. Gmail search for harboursupply.com.au found a thread from 2026-05-02 between Adrian and Mia. Decide what happens.",
+   "expects": [
+    {
+     "id": "no-emdash",
+     "kind": "forbid_regex",
+     "pattern": "—"
+    },
+    {
+     "id": "no-endash",
+     "kind": "forbid_regex",
+     "pattern": "–"
+    },
+    {
+     "id": "no-subject",
+     "kind": "forbid_regex",
+     "pattern": "(?im)^\\s*subject:"
+    },
+    {
+     "id": "suppressed",
+     "kind": "judge",
+     "assertion": "Skips the prospect because Adrian already has an email thread with the domain, and writes no email."
+    }
+   ]
+  },
+  {
+   "id": "outside-icp",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Atlas Bank Group (atlasbank.com.au), Sydney, financial services, 4,200 staff. Signal: new CMO appointed 2026-09-01. Decision maker: Robert Grey, CMO. Email: robert.grey@atlasbank.com.au. Decide what happens.",
+   "expects": [
+    {
+     "id": "no-emdash",
+     "kind": "forbid_regex",
+     "pattern": "—"
+    },
+    {
+     "id": "no-endash",
+     "kind": "forbid_regex",
+     "pattern": "–"
+    },
+    {
+     "id": "no-subject",
+     "kind": "forbid_regex",
+     "pattern": "(?im)^\\s*subject:"
+    },
+    {
+     "id": "rejects-icp",
+     "kind": "judge",
+     "assertion": "Rejects the prospect as outside the ICP (headcount far above 100 and not founder-led) and writes no email."
+    }
+   ]
+  },
+  {
+   "id": "cto-not-ceo",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: ReNew Health (renewhealth.com.au), Melbourne, B2B health software, 18 staff, founder-led. Signal: $2.5M seed announced 2026-09-08. Decision maker returned: Taylor Lane, CTO and Co-founder. Email: taylor@renewhealth.com.au. Decide what happens.",
+   "expects": [
+    {
+     "id": "no-emdash",
+     "kind": "forbid_regex",
+     "pattern": "—"
+    },
+    {
+     "id": "no-endash",
+     "kind": "forbid_regex",
+     "pattern": "–"
+    },
+    {
+     "id": "no-subject",
+     "kind": "forbid_regex",
+     "pattern": "(?im)^\\s*subject:"
+    },
+    {
+     "id": "wrong-person",
+     "kind": "judge",
+     "assertion": "Does not draft to the CTO, because the person emailed must be the founder or CEO or a new marketing leader, and says the CEO needs to be found instead."
+    }
+   ]
+  },
+  {
+   "id": "send-selective",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Adrian says: \"send 2\". The latest prospects summary lists: 1. Priya Raman, priya@tidewaterlabs.com.au; 2. Jess Tran, jess@loamandco.com; 3. Sam Ng, sam@orbit.co.nz. Tools are unavailable, so describe exactly which draft you would send and every step you would take, in order.",
+   "expects": [
+    {
+     "id": "no-emdash",
+     "kind": "forbid_regex",
+     "pattern": "—"
+    },
+    {
+     "id": "no-endash",
+     "kind": "forbid_regex",
+     "pattern": "–"
+    },
+    {
+     "id": "only-two",
+     "kind": "judge",
+     "assertion": "Sends only Jess Tran's draft, re-reads it with get_draft first, relabels it Prospect/Sent, and explicitly does not send drafts 1 or 3."
+    }
+   ]
+  }
+ ]
+}
