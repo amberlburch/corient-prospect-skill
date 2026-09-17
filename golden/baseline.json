@@ -147,7 +147,7 @@
   },
   {
    "id": "no-verified-email",
-   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Kiwi Kit (kiwikit.co.nz), Auckland, B2C e-learning, 15 staff. Signals: NZ$2M seed announced 2026-09-02; Marketing Lead role posted 2026-09-05. Decision maker: Barney Cole, Co-founder and CEO, linkedin.com/in/barneycole. Email lookup returned nothing. Decide what happens.",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Kiwi Kit (kiwikit.co.nz), Auckland, B2C e-learning, 15 staff. Signals: NZ$2M seed announced 2026-09-02; Marketing Lead role posted 2026-09-05. Decision maker: Ben Cole, Co-founder and CEO, linkedin.com/in/bencole. Email lookup returned nothing. Decide what happens.",
    "expects": [
     {
      "id": "no-emdash",
@@ -167,18 +167,18 @@
     {
      "id": "no-guessed-email",
      "kind": "forbid_regex",
-     "pattern": "(?i)barney(\\.cole)?@kiwikit"
+     "pattern": "(?i)ben(\\.cole)?@kiwikit"
     },
     {
      "id": "linkedin-only",
      "kind": "judge",
-     "assertion": "Writes no email, does not guess an address, and lists Barney Cole as LinkedIn only with the LinkedIn URL and the reason."
+     "assertion": "Writes no email, does not guess an address, and lists Ben Cole as LinkedIn only with the LinkedIn URL and the reason."
     }
    ]
   },
   {
    "id": "wrong-domain-email",
-   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Evento (evento.com.au), Brisbane, B2B events software, 12 staff. Signal: $1.5M pre-seed announced 2026-09-05. Decision maker: Hailey Moss, Co-founder and CEO. Email lookup returned hailey.moss@the-shift.agency with confidence High. Decide what happens.",
+   "input": "Today is 2026-09-17. Headless test: tools are not available, so decide and write using only the records given. Prospect record: Evento (evento.com.au), Brisbane, B2B events software, 12 staff. Signal: $1.5M pre-seed announced 2026-09-05. Decision maker: Hana Moss, Co-founder and CEO. Email lookup returned hana.moss@oldstudio.example with confidence High. Decide what happens.",
    "expects": [
     {
      "id": "no-emdash",
